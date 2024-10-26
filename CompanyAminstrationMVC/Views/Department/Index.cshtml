@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Department>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    /* Global Styles */
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 1310px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    /* Header Styles */
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Button Styles */
+
+    .btn {
+        background-color: #4CAF50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+
+    .btn:hover {
+        background-color: #3e8e41;
+    }
+
+    /* Table Styles */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
+
+    /* Alert Styles */
+
+    .alert {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .alert-warning {
+        background-color: #fcf8e3;
+        color: #8a6d3b;
+        border-color: #faebcc;
+    }
+</style>
+
+<div class="container">
+    <h1>All Departments</h1>
+
+    @if (User.IsInRole("HR"))
+    {
+        <a asp-controller="Department" asp-action="Create" class="btn btn-primary">Create Department</a>
+
+    }
+    <br />
+    <br />
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(d => d.Name)</th>
+                    <th>@Html.DisplayNameFor(d => d.DateOfCreation)</th>
+                    @if (User.IsInRole("HR"))
+                    {
+                        <th>Details</th>
+                    }
+                    @if (User.IsInRole("Moderator"))
+                    {
+                        <th>Update</th>
+                    }
+                    
+
+                    @if (User.IsInRole("HR"))
+                    {
+                        <th>Delete</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var department in Model)
+                {
+                    <tr>
+                        <input type="hidden" asp-for="@department.Code" />
+                        <td>@department.Name</td>
+                        <td>@department.DateOfCreation.ToString("yyyy-MM-dd")</td>
+                        <partial name="_ButtonPartialView" model="@department.id.ToString()" />
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="mt-4 alert alert-warning">
+            <h4>There are No Departments :(</h4>
+        </div>
+    }
+</div>

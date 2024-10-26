@@ -1,0 +1,55 @@
+﻿@model SignUpViewModel
+@{
+	ViewData["Title"] = "SignUp";
+	Layout = "~/Views/Shared/AuthLayout.cshtml";
+}
+
+<div class="main-w3layouts wrapper">
+	<h1>SignUp Form</h1>
+	<div class="main-agileinfo">
+		<div class="agileits-top">
+
+			<!-- Validation Summary to display all errors -->
+			@if (!ViewData.ModelState.IsValid)
+			{
+				<div class="alert alert-danger">
+					@Html.ValidationSummary(false, "", new { @class = "text-danger" })
+				</div>
+			}
+
+			<form asp-action="SignUp">
+				<input class="text" asp-for="UserName" placeholder="Username" required="">
+				<!-- Field-specific error display -->
+				<span asp-validation-for="UserName" class="text-danger"></span>
+
+				<input class="text" asp-for="FirstName" placeholder="First Name" required="">
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+
+				<input class="text" asp-for="LastName" placeholder="Last Name" required="">
+				<span asp-validation-for="LastName" class="text-danger"></span>
+
+				<input class="text email" asp-for="Email" placeholder="Email" required="">
+				<span asp-validation-for="Email" class="text-danger"></span>
+
+				<input class="text" asp-for="Password" placeholder="Password" required="">
+				<span asp-validation-for="Password" class="text-danger"></span>
+
+				<input class="text w3lpass" asp-for="ConfirmPassword" placeholder="Confirm Password" required="">
+				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+				<div class="wthree-text">
+					<label class="anim">
+						<input asp-for="IsAgree" class="checkbox" required="">
+						<span>I Agree To The Terms & Conditions</span>
+					</label>
+					<span asp-validation-for="IsAgree" class="text-danger"></span>
+					<div class="clear"> </div>
+				</div>
+
+				<input type="submit" value="SIGNUP">
+			</form>
+
+			<p> have an Account? <a asp-action="SignIn"> Login Now!</a></p>
+		</div>
+	</div>
+</div>

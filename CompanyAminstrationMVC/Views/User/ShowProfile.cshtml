@@ -1,0 +1,117 @@
+﻿@model UserViewModel
+
+@{
+    ViewData["Title"] = "User Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+<style>
+    /* Profile Container */
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    /* Heading */
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Badge Styles */
+    .badge {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9em;
+    }
+
+    .badge-admin {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .badge-user {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .badge-moderator {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    .badge-default {
+        background-color: #6c757d;
+        color: #fff;
+    }
+
+    /* Profile Fields */
+    .profile-field {
+        margin-bottom: 10px;
+    }
+
+    .profile-label {
+        font-weight: bold;
+    }
+
+</style>
+
+@functions {
+    public string GetBadgeClass(string role)
+    {
+        return role switch
+        {
+            "ADMIN" => "badge-admin",
+            "HR" => "badge-user",
+            "Moderator" => "badge-moderator",
+            _ => "badge-default"
+        };
+    }
+}
+
+<div class="profile-container">
+    <h1>User Profile</h1>
+
+    <div class="profile-field">
+        <span class="profile-label">ID:</span>
+        <span>@Model.Id</span>
+    </div>
+
+    <div class="profile-field">
+        <span class="profile-label">First Name:</span>
+        <span>@Model.FirstName</span>
+    </div>
+
+    <div class="profile-field">
+        <span class="profile-label">Last Name:</span>
+        <span>@Model.LastName</span>
+    </div>
+
+    <div class="profile-field">
+        <span class="profile-label">Email:</span>
+        <span>@Model.Email</span>
+    </div>
+
+    <div class="profile-field">
+        <span class="profile-label">Roles:</span>
+        @if (Model.Roles != null && Model.Roles.Any())
+        {
+            @foreach (var role in Model.Roles)
+            {
+                <span class="badge @GetBadgeClass(role)">@role</span>
+            }
+        }
+        else
+        {
+            <span>No roles assigned</span>
+        }
+    </div>
+
+    <div class="profile-field text-center mt-4">
+        <a asp-action="EditProfile" asp-route-id="@Model.Id" class="btn btn-primary">Edit Profile</a>
+    </div>
+</div>
