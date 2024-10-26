@@ -25,9 +25,9 @@ namespace C42_G01_MVC04.PL
 			//builder.Services.AddScoped<AppDbContext>();
 
 			builder.Services.AddDbContext<AppDbContext>(options =>
-						 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")),
-			  ServiceLifetime.Transient);
-
+                        options.UseSqlServer(Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")),
+                        ServiceLifetime.Transient);
+			
 			builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 			builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 			builder.Services.AddIdentity<AppUser, IdentityRole>()
